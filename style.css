@@ -7,3 +7,9 @@
     --gray: #6e6a63;
     --white: #faf8f3;
 }
+* {  ( * Tous les éléments HTML.)
+
+		margin: 0;   (supprime les marges par défaut et les espacements intérieurs par défaut.)
+		padding: 0;
+		box-sizing: border-box; (permet de mieux contrôler la taille réelle des éléments.)
+	}
