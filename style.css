@@ -1,18 +1,4 @@
-:root {   
-    --cream: #f2eee5;
-    --paper: #e8e1d4;
-    --black: #171717;            
-    --red: #8f3028;
-    --orange: #b87935;
-    --gray: #6e6a63;
-    --white: #faf8f3;
-}
-* {  ( * Tous les éléments HTML.)
-
-		margin: 0;   (supprime les marges par défaut et les espacements intérieurs par défaut.)
-		padding: 0;
-		box-sizing: border-box; (permet de mieux contrôler la taille réelle des éléments.)
-	} :root {   (représente la racine du document HTML.)
+:root {   (représente la racine du document HTML.)
 
     --cream: #f2eee5;
     --paper: #e8e1d4;
@@ -26,27 +12,5 @@
     pouvoir changer une couleur une seule fois et de la retrouver 
     partout où elle est utilisée.)
 
-} * {  ( * Tous les éléments HTML.)
-
-		margin: 0;   (supprime les marges par défaut et les espacements intérieurs par défaut.)
-		padding: 0;
-		box-sizing: border-box; (permet de mieux contrôler la taille réelle des éléments.)
-	}
-    scroll-behavior: smooth; /* Le défilement devient doux et animé quand on clique sur un lien interne (ex. vers #contact), au lieu d'un saut brutal. */
 }
 
-
-body { /* La balise body représente tout le contenu visible de la page. */
-
-    background: var(--cream); /* Couleur de fond de la page. var(--cream) utilise la variable définie dans :root. */
-
-    color: var(--black); /* Couleur du texte par défaut. Les éléments à l'intérieur en héritent. */
-
-    font-family:
-        Arial, /* Première police essayée. */
-        Helvetica, /* Si Arial n'existe pas sur l'ordinateur, le navigateur essaie celle-ci. */
-        sans-serif; /* Solution de secours : n'importe quelle police sans empattement. */
-
-    line-height: 1.6; /* Hauteur des lignes : 1,6 fois la taille de la police. Un nombre sans unité est un multiplicateur. Le texte est plus aéré et plus lisible. */
-
-}
