@@ -384,4 +384,738 @@ a { /* La balise a représente les liens. Par défaut, ils sont bleus et soulign
 
 }
    
-   
+.gallery { /* La section Galerie (class="gallery"). */
+
+    padding: 150px 8%; /* Espace intérieur : 150px en haut et en bas, 8% à gauche et à droite. */
+
+}
+
+
+.section-header { /* Le bloc d'en-tête de la section : il regroupe le numéro et le titre. */
+
+    margin-bottom: 100px; /* 100 pixels d'espace sous l'en-tête, pour bien le séparer du contenu de la galerie qui suit. */
+
+}
+
+
+.section-header .section-number { /* L'espace entre deux sélecteurs signifie « à l'intérieur de » : on cible uniquement le .section-number qui se trouve dans un .section-header. C'est plus précis que la simple classe de l'étape 7. */
+
+    margin-bottom: 30px; /* 30 pixels d'espace sous le numéro, pour le séparer du titre. Les autres propriétés (rouge, majuscules, etc.) viennent de la règle .section-number de l'étape 7. */
+
+}
+
+
+.section-header h2 { /* Le titre h2 situé dans .section-header. */
+
+    font-size:
+        clamp( /* Taille adaptative : elle suit la largeur de l'écran, mais reste entre deux limites. */
+            50px, /* Minimum : jamais moins de 50 pixels. */
+            7vw, /* Idéal : 7 % de la largeur de la fenêtre (vw = « viewport width »). */
+            100px /* Maximum : jamais plus de 100 pixels. */
+        );
+
+    line-height: 0.9; /* Interligne très serré : 0,9 fois la taille de la police. */
+
+    font-weight: 400; /* Poids normal (un h2 est en gras par défaut). */
+
+}
+
+
+.section-header h2 em { /* Les mots en <em> à l'intérieur de ce titre. */
+
+    color: var(--red); /* Le mot mis en valeur devient rouge. */
+
+}   
+   .gallery-grid { /* Le conteneur qui regroupe toutes les œuvres de la galerie. */
+
+    display: grid; /* CSS Grid : les œuvres (enfants directs) se placent dans les cases d'une grille. */
+
+    grid-template-columns:
+        repeat(12, 1fr); /* repeat(12, 1fr) est un raccourci pour écrire 1fr douze fois : on obtient 12 colonnes égales. fr = « fraction » de l'espace disponible. */
+
+    gap: 80px 30px; /* Deux valeurs : 80px d'espace entre les lignes, 30px entre les colonnes. */
+
+}
+
+
+.artwork { /* Le bloc d'une œuvre (image + informations). */
+
+    position: relative; /* L'élément reste à sa place, mais devient un point de repère pour les éléments positionnés en absolute à l'intérieur. */
+
+}
+
+
+.artwork-large { /* La grande œuvre. */
+
+    grid-column:
+        1 / span 7; /* Commence à la ligne de grille n°1 et occupe 7 colonnes (donc les colonnes 1 à 7). */
+
+}
+
+
+.artwork-small { /* La petite œuvre. */
+
+    grid-column:
+        9 / span 4; /* Commence à la ligne n°9 et occupe 4 colonnes. Elle est donc placée à droite, avec un vide entre elle et la grande œuvre. */
+
+    margin-top: 150px; /* Décale l'œuvre de 150 pixels vers le bas, pour accentuer l'effet décalé « façon magazine ». */
+
+}
+
+
+.artwork-wide { /* L'œuvre large. */
+
+    grid-column:
+        3 / span 8; /* Commence à la ligne n°3 et occupe 8 colonnes : elle est centrée, avec 2 colonnes vides de chaque côté. */
+
+}
+
+
+.image-container { /* Le cadre qui contient l'image de l'œuvre. */
+
+    position: relative; /* Point de repère pour placer le numéro rond en absolute à l'intérieur. */
+
+    overflow: hidden; /* Cache tout ce qui dépasse du cadre. Indispensable pour l'effet de zoom : l'image grossit, mais ne déborde pas. */
+
+    background: #ddd; /* Gris clair, visible tant que l'image n'est pas chargée. */
+
+}
+
+
+.image-container img { /* L'image située dans le cadre. */
+
+    width: 100%; /* L'image prend toute la largeur de son cadre. */
+
+    height: 620px; /* Hauteur par défaut : 620 pixels. */
+
+    object-fit: cover; /* L'image remplit la zone sans se déformer : elle est recadrée si nécessaire. */
+
+    display: block; /* Supprime le petit espace parasite sous l'image. */
+
+    transition:
+        transform 0.6s ease, /* Anime les changements de transform (le zoom) sur 0,6 seconde. */
+        filter 0.6s ease; /* Anime aussi les changements de filter (effets comme le noir et blanc ou le flou), sur 0,6 seconde. On sépare plusieurs transitions par une virgule. */
+
+}
+
+
+.artwork-small .image-container img { /* Plus précis : seulement l'image du cadre qui est dans .artwork-small. */
+
+    height: 500px; /* Remplace les 620px pour la petite œuvre. Le sélecteur le plus précis l'emporte. */
+
+}
+
+
+.artwork-wide .image-container img { /* Seulement l'image du cadre qui est dans .artwork-wide. */
+
+    height: 600px; /* Remplace les 620px pour l'œuvre large. */
+
+}
+
+
+.artwork:hover img { /* :hover = quand la souris passe sur l'élément. Ici, quand on survole l'œuvre (et pas seulement l'image), c'est l'image qui change. */
+
+    transform: scale(1.04); /* transform modifie la forme ou la taille sans toucher à la mise en page. scale(1.04) agrandit l'image de 4 %. Grâce à la transition, le zoom est fluide. */
+
+}
+
+
+.artwork-number { /* Le petit numéro rond posé sur l'image. */
+
+    position: absolute; /* Placé librement par rapport à son parent positionné (le cadre de l'image). */
+
+    top: 20px; /* À 20 pixels du haut. */
+
+    right: 20px; /* À 20 pixels de la droite. */
+
+    width: 45px; /* Largeur de 45 pixels. */
+
+    height: 45px; /* Hauteur de 45 pixels : même valeur que la largeur, donc un carré. */
+
+    border-radius: 50%; /* Arrondit les coins. À 50 %, le carré devient un cercle parfait. */
+
+    background: var(--cream); /* Fond crème (variable définie dans :root). */
+
+    display: flex; /* Flexbox, pour centrer le chiffre dans le cercle. */
+
+    align-items: center; /* Centre le chiffre verticalement. */
+
+    justify-content: center; /* Centre le chiffre horizontalement. */
+
+    font-size: 12px; /* Petit texte. */
+
+}
+
+
+.artwork-info { /* Le bloc d'informations sous l'image (titre, description, détail). */
+
+    display: flex; /* Aligne les éléments côte à côte. */
+
+    justify-content: space-between; /* Un élément à gauche, un autre à droite. */
+
+    align-items: flex-start; /* Aligne les éléments en haut (au lieu de les centrer verticalement). */
+
+    padding-top: 15px; /* 15 pixels d'espace intérieur au-dessus du contenu. */
+
+    border-top: 1px solid var(--black); /* Un trait noir fin au-dessus du bloc : épaisseur (1px), style (solid = trait plein), couleur. */
+
+    margin-top: 12px; /* 12 pixels d'espace extérieur entre l'image et le trait. */
+
+}
+
+
+.artwork-info h3 { /* Le titre h3 dans le bloc d'informations. */
+
+    font-size: 25px; /* Taille du titre de l'œuvre. */
+
+    font-weight: 400; /* Poids normal (un h3 est en gras par défaut). */
+
+}
+
+
+.artwork-info p { /* Les paragraphes dans le bloc d'informations. */
+
+    color: var(--gray); /* Texte gris. */
+
+    font-size: 13px; /* Petit texte. */
+
+}
+
+
+.artwork-info > span { /* Le symbole > signifie « enfant direct » : seuls les <span> placés directement dans .artwork-info sont concernés, pas ceux qui seraient plus profond. */
+
+    color: var(--gray); /* Texte gris. */
+
+    font-size: 13px; /* Petit texte. */
+
+}
+   .studio { /* La section Studio (class="studio"). */
+
+    background: var(--black); /* Fond noir (variable --black). */
+
+    color: var(--white); /* Texte blanc cassé. Associé au fond noir, cela inverse les couleurs de la page et crée un fort contraste avec les sections voisines. Les éléments à l'intérieur héritent de cette couleur. */
+
+    padding: 120px 8%; /* Espace intérieur : 120px en haut et en bas, 8% à gauche et à droite. */
+
+    display: grid; /* CSS Grid : l'image et le texte se placent dans des colonnes. */
+
+    grid-template-columns:
+        1fr /* Première colonne (l'image) : 1 part de l'espace disponible. */
+        1fr; /* Deuxième colonne (le texte) : 1 part aussi. Deux valeurs identiques = deux colonnes de même largeur. */
+
+    gap: 100px; /* Espace de 100 pixels entre les deux colonnes. */
+
+    align-items: center; /* Centre verticalement l'image et le texte dans leurs cases. */
+
+}
+
+
+.studio-image img { /* L'image située dans .studio-image. */
+
+    width: 100%; /* L'image prend toute la largeur de sa colonne. */
+
+    height: 650px; /* Hauteur fixe de 650 pixels. */
+
+    object-fit: cover; /* L'image remplit la zone sans se déformer : elle est recadrée si nécessaire. */
+
+}
+
+
+.studio-text h2 { /* Le titre h2 situé dans .studio-text. */
+
+    font-size:
+        clamp( /* Taille adaptative qui suit la largeur de l'écran, entre deux limites. */
+            50px, /* Minimum : jamais moins de 50 pixels. */
+            6vw, /* Idéal : 6 % de la largeur de la fenêtre (vw = « viewport width »). */
+            90px /* Maximum : jamais plus de 90 pixels. */
+        );
+
+    line-height: 0.95; /* Interligne serré : un peu moins que la taille de la police. */
+
+    font-weight: 400; /* Poids normal (un h2 est en gras par défaut). */
+
+    margin: 35px 0; /* Marge extérieure avec deux valeurs : 35px en haut et en bas, 0 à gauche et à droite. */
+
+}
+
+
+.studio-text h2 em { /* Les mots en <em> à l'intérieur de ce titre. */
+
+    color: #d07855; /* Orange-rouge clair, écrit directement en hexadécimal. Il est plus lisible sur fond noir que le rouge foncé (--red) utilisé ailleurs. */
+
+}
+
+
+.studio-text p { /* Les paragraphes situés dans .studio-text. */
+
+    max-width: 500px; /* Limite la largeur du texte pour garder des lignes faciles à lire. */
+
+    color: #aaa; /* Gris clair : moins agressif que le blanc pur sur un fond noir. */
+
+    margin-bottom: 20px; /* 20 pixels d'espace sous chaque paragraphe. */
+
+    font-size: 17px; /* Taille de texte légèrement plus grande que la normale. */
+
+}
+   .education { /* La section Parcours / Formation (class="education"). */
+
+    padding: 150px 8%; /* Espace intérieur : 150px en haut et en bas, 8% à gauche et à droite. */
+
+}
+
+
+.education > h2 { /* Le symbole > signifie « enfant direct » : seul le h2 placé directement dans .education est concerné, pas ceux qui seraient plus profond. */
+
+    font-size:
+        clamp( /* Taille adaptative qui suit la largeur de l'écran, entre deux limites. */
+            50px, /* Minimum : jamais moins de 50 pixels. */
+            6vw, /* Idéal : 6 % de la largeur de la fenêtre (vw = « viewport width »). */
+            90px /* Maximum : jamais plus de 90 pixels. */
+        );
+
+    font-weight: 400; /* Poids normal (un h2 est en gras par défaut). */
+
+    margin: 35px 0 100px; /* Marge extérieure avec trois valeurs : 35px en haut, 0 à gauche et à droite, 100px en bas. Le grand espace du bas sépare le titre de la timeline. */
+
+}
+
+
+.timeline { /* Le conteneur qui regroupe toutes les étapes du parcours. */
+
+    max-width: 1000px; /* Largeur maximale : la liste ne s'étire pas au-delà de 1000 pixels, même sur un grand écran. */
+
+}
+
+
+.timeline-item { /* Une ligne de la timeline (une date + une description). */
+
+    display: grid; /* CSS Grid : la date et le texte se placent dans deux colonnes. */
+
+    grid-template-columns:
+        200px /* Première colonne (la date) : largeur fixe de 200 pixels. */
+        1fr; /* Deuxième colonne (le texte) : prend tout l'espace restant. Mélanger une taille fixe et fr est très courant. */
+
+    gap: 50px; /* Espace de 50 pixels entre les deux colonnes. */
+
+    padding: 40px 0; /* Espace intérieur : 40px en haut et en bas, 0 à gauche et à droite. */
+
+    border-top: 1px solid #aaa; /* Un fin trait gris au-dessus de chaque ligne, pour séparer les étapes entre elles. */
+
+}
+
+
+.timeline-item > span { /* Les <span> placés directement dans .timeline-item (ici, la date). */
+
+    color: var(--red); /* Date en rouge, grâce à la variable définie dans :root. */
+
+    font-size: 13px; /* Petit texte. */
+
+}
+
+
+.timeline-item h3 { /* Le titre h3 de chaque étape. */
+
+    font-size: 30px; /* Taille du titre : 30 pixels. */
+
+    font-weight: 400; /* Poids normal (un h3 est en gras par défaut). */
+
+    margin-bottom: 5px; /* 5 pixels d'espace sous le titre. */
+
+}
+
+
+.timeline-item p { /* Les paragraphes de chaque étape. */
+
+    color: #555; /* Gris foncé, écrit directement en hexadécimal. */
+
+    margin-bottom: 10px; /* 10 pixels d'espace sous le paragraphe. */
+
+}
+
+
+.timeline-item small { /* La balise <small> sert à écrire un petit texte secondaire. */
+
+    color: var(--gray); /* Texte gris, pour une information moins importante. */}
+.statement { /* La section Citation (class="statement"). */
+
+    background: var(--red); /* Fond rouge (variable --red). */
+
+    color: var(--white); /* Texte blanc cassé. Les éléments à l'intérieur héritent de cette couleur. */
+
+    padding: 150px 8%; /* Espace intérieur : 150px en haut et en bas, 8% à gauche et à droite. */
+
+}
+
+
+.statement-content { /* Le bloc qui contient la citation. */
+
+    max-width: 1100px; /* Largeur maximale : le bloc ne dépasse pas 1100 pixels. */
+
+    margin: auto; /* Avec auto, le navigateur répartit l'espace restant à gauche et à droite de façon égale : le bloc est centré horizontalement. Cela ne fonctionne que si l'élément a une largeur limitée (ici, max-width). */
+
+    text-align: center; /* Centre le texte à l'intérieur du bloc. Ce n'est pas la même chose que centrer le bloc lui-même (c'est le rôle de margin: auto). */
+
+}
+
+
+.statement-content > span { /* Les <span> placés directement dans .statement-content (> = enfant direct). */
+
+    font-size: 11px; /* Très petit texte. */
+
+    letter-spacing: 3px; /* Espace fortement les lettres pour un style aéré. */
+
+}
+
+
+.statement blockquote { /* La balise <blockquote> est la balise HTML des citations. */
+
+    font-family:
+        Georgia, /* Police à empattements, élégante pour une citation. */
+        serif; /* Solution de secours : n'importe quelle police à empattements. */
+
+    font-size:
+        clamp( /* Taille adaptative qui suit la largeur de l'écran, entre deux limites. */
+            40px, /* Minimum : jamais moins de 40 pixels. */
+            6vw, /* Idéal : 6 % de la largeur de la fenêtre (vw = « viewport width »). */
+            80px /* Maximum : jamais plus de 80 pixels. */
+        );
+
+    line-height: 1; /* Interligne égal à la taille de la police : des lignes serrées, sans nombre d'unité. */
+
+    font-style: italic; /* Affiche la citation en italique. */
+
+    margin: 50px 0; /* Marge extérieure : 50px en haut et en bas, 0 à gauche et à droite. La citation est bien séparée des éléments autour. */
+
+}
+
+
+.statement p { /* Les paragraphes situés dans .statement (ici, probablement l'auteur de la citation). */
+
+    font-size: 13px; /* Petit texte. */
+
+    text-transform: uppercase; /* Affiche le texte en majuscules. */
+
+    letter-spacing: 2px; /* Espace légèrement les lettres. */
+
+}
+   .contact { /* La section Contact (class="contact"). */
+
+    padding: 150px 8%; /* Espace intérieur : 150px en haut et en bas, 8% à gauche et à droite. */
+
+}
+
+
+.contact-content { /* Le conteneur qui regroupe le titre et les coordonnées. */
+
+    display: grid; /* CSS Grid : le titre et les coordonnées se placent dans deux colonnes. */
+
+    grid-template-columns:
+        1fr /* Première colonne (le titre) : 1 part de l'espace disponible. */
+        0.5fr; /* Deuxième colonne (les coordonnées) : 0,5 part, donc deux fois plus étroite que la première. */
+
+    gap: 100px; /* Espace de 100 pixels entre les deux colonnes. */
+
+    margin-top: 70px; /* 70 pixels d'espace au-dessus, pour séparer ce bloc du haut de la section. */
+
+}
+
+
+.contact h2 { /* Le titre h2 situé dans .contact. */
+
+    font-size:
+        clamp( /* Taille adaptative qui suit la largeur de l'écran, entre deux limites. */
+            60px, /* Minimum : jamais moins de 60 pixels. */
+            8vw, /* Idéal : 8 % de la largeur de la fenêtre (vw = « viewport width »). */
+            120px /* Maximum : jamais plus de 120 pixels. C'est le plus grand titre du site. */
+        );
+
+    line-height: 0.85; /* Interligne très serré : 0,85 fois la taille de la police. */
+
+    font-weight: 400; /* Poids normal (un h2 est en gras par défaut). */
+
+}
+
+
+.contact h2 em { /* Les mots en <em> à l'intérieur de ce titre. */
+
+    color: var(--red); /* Le mot mis en valeur devient rouge. */
+
+}
+
+
+.contact-details { /* Le bloc des coordonnées (colonne de droite). */
+
+    padding-top: 20px; /* 20 pixels d'espace intérieur au-dessus, pour descendre un peu le contenu et l'aligner visuellement avec le titre. */
+
+}
+
+
+.contact-details p { /* Les paragraphes situés dans .contact-details. */
+
+    color: var(--gray); /* Texte gris. */
+
+    margin-bottom: 40px; /* 40 pixels d'espace sous le paragraphe, pour le séparer des liens. */
+
+}
+
+
+.contact-details a { /* Les liens situés dans .contact-details (e-mail, réseaux, etc.). */
+
+    display: block; /* Par défaut, un lien est « en ligne » : il se place à la suite du texte. Avec block, chaque lien occupe sa propre ligne. */
+
+    width: fit-content; /* Corrige l'effet du block : le lien ne prend que la largeur de son contenu, au lieu de s'étaler sur toute la colonne. Le trait du dessous ne souligne donc que le texte. */
+
+    margin-bottom: 15px; /* 15 pixels d'espace sous chaque lien, pour les séparer. */
+
+    border-bottom: 1px solid #999; /* Un seul trait gris sous le lien. Une bordure se décrit avec : épaisseur (1px), style (solid = trait plein) et couleur. */
+
+    padding-bottom: 4px; /* 4 pixels d'espace entre le texte et le trait, pour qu'il ne soit pas collé aux lettres. */
+
+}
+   footer { /* Ici, il n'y a ni point ni #, donc c'est un sélecteur de balise : il cible la balise HTML <footer> (le pied de page). */
+
+    padding: 25px 6%; /* Espace intérieur : 25px en haut et en bas, 6% à gauche et à droite. */
+
+    border-top: 1px solid #bbb; /* Un fin trait gris clair au-dessus du footer, pour le séparer du reste de la page. Une bordure se décrit avec : épaisseur (1px), style (solid = trait plein) et couleur. */
+
+    display: flex; /* Flexbox : les enfants directs du footer (les textes) se placent côte à côte. */
+
+    justify-content: space-between; /* Répartit les enfants sur l'axe horizontal avec l'espace entre eux : un texte tout à gauche, l'autre tout à droite. */
+
+    font-size: 11px; /* Très petit texte : 11 pixels. */
+
+    text-transform: uppercase; /* Affiche le texte en majuscules, sans modifier le HTML. */
+
+    letter-spacing: 1px; /* Espace légèrement les lettres pour un style plus aéré. */
+
+    color: var(--gray); /* Texte gris (variable --gray), discret, pour une information secondaire. */
+    }
+@media (max-width: 900px) { /* @media = media query : des règles qui ne s'appliquent que dans certaines conditions. Ici : seulement si la fenêtre fait 900 pixels de large ou moins (tablettes et petits écrans). C'est le principe du responsive design : la page s'adapte à la taille de l'écran. Ces règles viennent après les règles normales : en cas de conflit, elles les remplacent. */
+
+
+    .navbar { /* La barre de navigation. */
+
+        padding: 25px 5%; /* Réduit l'espace intérieur : 25px en haut et en bas, 5% à gauche et à droite. */
+
+    }
+
+
+    .navbar nav { /* Le menu. */
+
+        gap: 15px; /* Rapproche les liens : 15 pixels au lieu de 35. */
+
+    }
+
+
+    .navbar nav a { /* Les liens du menu. */
+
+        font-size: 10px; /* Texte plus petit pour que le menu tienne sur un écran moins large. */
+
+    }
+
+
+    .hero { /* La section d'accueil. */
+
+        grid-template-columns: 1fr; /* Une seule colonne au lieu de deux : le texte et l'image passent l'un sous l'autre. C'est le changement le plus courant en responsive. */
+
+        padding-top: 130px; /* Remplace uniquement le haut du padding (150px devient 130px). Les autres valeurs du padding ne changent pas. */
+
+    }
+
+
+    .hero-image { /* Le bloc de l'image du hero. */
+
+        margin-top: 30px; /* Ajoute 30 pixels d'espace au-dessus de l'image, maintenant placée sous le texte. */
+
+    }
+
+
+    .hero-image img { /* L'image du hero. */
+
+        height: 550px; /* Hauteur réduite : 550 pixels au lieu de 680. */
+
+    }
+
+
+    .about-content { /* Le conteneur de la section « À propos ». */
+
+        grid-template-columns: 1fr; /* Une seule colonne : l'image et le texte s'empilent. */
+
+        gap: 50px; /* Espace réduit entre eux : 50 pixels au lieu de 100. */
+
+    }
+
+
+    .about-image img { /* L'image de la section « À propos ». */
+
+        height: 500px; /* Hauteur réduite : 500 pixels au lieu de 600. */
+
+    }
+
+
+    .gallery-grid { /* La grille de la galerie. */
+
+        display: block; /* Supprime complètement la grille de 12 colonnes : les œuvres s'empilent simplement les unes sous les autres, comme des blocs normaux. Les propriétés grid-column n'ont alors plus d'effet. */
+
+    }
+
+
+    .artwork { /* Chaque œuvre de la galerie. */
+
+        margin-bottom: 70px; /* 70 pixels d'espace sous chaque œuvre. Il remplace le gap de la grille, qui n'existe plus. */
+
+    }
+
+
+    .artwork-small { /* La petite œuvre. */
+
+        margin-top: 0; /* Supprime le décalage de 150 pixels, devenu inutile en affichage empilé. */
+
+    }
+
+
+    .artwork img, /* La virgule regroupe plusieurs sélecteurs : la même règle s'applique aux trois. */
+    .artwork-small .image-container img,
+    .artwork-wide .image-container img {
+
+        height: 550px; /* Toutes les images de la galerie ont la même hauteur : 550 pixels. */
+
+    }
+
+
+    .studio { /* La section Studio. */
+
+        grid-template-columns: 1fr; /* Une seule colonne : l'image et le texte s'empilent. */
+
+        gap: 60px; /* Espace réduit entre eux : 60 pixels au lieu de 100. */
+
+    }
+
+
+    .studio-image img { /* L'image de la section Studio. */
+
+        height: 500px; /* Hauteur réduite : 500 pixels au lieu de 650. */
+
+    }
+
+
+    .contact-content { /* Le conteneur de la section Contact. */
+
+        grid-template-columns: 1fr; /* Une seule colonne : le titre puis les coordonnées. */
+
+        gap: 50px; /* Espace réduit entre eux : 50 pixels au lieu de 100. */
+
+    }
+
+}
+
+
+@media (max-width: 600px) { /* Une deuxième media query, pour les écrans de 600 pixels ou moins (téléphones). Elle s'ajoute à la précédente : un téléphone reçoit les règles de 900px ET celles de 600px. En cas de conflit, ces dernières gagnent, car elles viennent en dernier. */
+
+
+    .navbar nav { /* Le menu. */
+
+        display: none; /* Cache complètement le menu : l'élément disparaît de la page, comme s'il n'existait pas. Il n'y a plus assez de place pour les liens. */
+
+    }
+
+
+    .hero { /* La section d'accueil. */
+
+        padding-left: 6%; /* Remplace uniquement la valeur de gauche du padding. */
+
+        padding-right: 6%; /* Remplace uniquement la valeur de droite du padding. */
+
+    }
+
+
+    .hero h1 { /* Le grand titre du hero. */
+
+        font-size: 65px; /* Taille fixe de 65 pixels : elle remplace le clamp() utilisé sur grand écran. */
+
+        letter-spacing: -3px; /* Lettres moins serrées qu'avant (-3px au lieu de -5px), pour rester lisible sur petit écran. */
+
+    }
+
+
+    .hero-image img { /* L'image du hero. */
+
+        height: 450px; /* Hauteur encore réduite : 450 pixels. */
+
+    }
+
+
+    .about, /* Quatre sections regroupées avec des virgules : la même règle s'applique à toutes. */
+    .gallery,
+    .education,
+    .contact {
+
+        padding-top: 90px; /* Réduit l'espace en haut : 90 pixels au lieu de 140 ou 150. */
+
+        padding-bottom: 90px; /* Réduit l'espace en bas : 90 pixels. Les côtés (8%) ne changent pas. */
+
+    }
+
+
+    .about-image img { /* L'image de la section « À propos ». */
+
+        height: 400px; /* Hauteur réduite : 400 pixels. */
+
+    }
+
+
+    .artwork img, /* Les images de la galerie (mêmes sélecteurs regroupés que plus haut). */
+    .artwork-small .image-container img,
+    .artwork-wide .image-container img {
+
+        height: 420px; /* Hauteur réduite : 420 pixels pour toutes les images de la galerie. */
+
+    }
+
+
+    .studio { /* La section Studio. */
+
+        padding: 90px 6%; /* Espace intérieur réduit : 90px en haut et en bas, 6% à gauche et à droite. */
+
+    }
+
+
+    .studio-image img { /* L'image de la section Studio. */
+
+        height: 400px; /* Hauteur réduite : 400 pixels. */
+
+    }
+
+
+    .timeline-item { /* Une ligne de la timeline. */
+
+        grid-template-columns: 1fr; /* Une seule colonne : la date passe au-dessus du texte, au lieu d'être à gauche. */
+
+        gap: 10px; /* Espace réduit entre la date et le texte : 10 pixels. */
+
+    }
+
+
+    .statement { /* La section Citation. */
+
+        padding: 100px 6%; /* Espace intérieur réduit : 100px en haut et en bas, 6% à gauche et à droite. */
+
+    }
+
+
+    .statement blockquote { /* La citation. */
+
+        font-size: 42px; /* Taille fixe de 42 pixels : elle remplace le clamp() utilisé sur grand écran. */
+
+    }
+
+
+    footer { /* Le pied de page. */
+
+        flex-direction: column; /* Change la direction de l'axe flex. Par défaut, les éléments sont en ligne (row). Avec column, ils s'empilent verticalement. */
+
+        gap: 10px; /* 10 pixels d'espace entre les éléments empilés. */
+
+    }
+
+}
