@@ -7,14 +7,381 @@
     --orange: #b87935;
     --gray: #6e6a63;
     --white: #faf8f3;
-}
-	margin: 0;   
+    
+    (--cream,--paper sont des variables CSS.L'intérêt est de 
+    pouvoir changer une couleur une seule fois et de la retrouver 
+    partout où elle est utilisée.)
+
+} 
+* {  ( * Tous les éléments HTML.)
+
+		margin: 0;   (supprime les marges par défaut et les espacements intérieurs par défaut.)
 		padding: 0;
-		box-sizing: border-box;
-body { 
-    background: var(--cream); 
-    color: var(--black); 
- font-family:
-        Arial, 
-        Helvetica, 
-        sans-serif; }
+		box-sizing: border-box; (permet de mieux contrôler la taille réelle des éléments.)
+	}
+html { /* La balise html représente toute la page web. */
+    scroll-behavior: smooth; /* Le défilement devient doux et animé quand on clique sur un lien interne (ex. vers #contact), au lieu d'un saut brutal. */
+}
+
+
+body { /* La balise body représente tout le contenu visible de la page. */
+
+    background: var(--cream); /* Couleur de fond de la page. var(--cream) utilise la variable définie dans :root. */
+
+    color: var(--black); /* Couleur du texte par défaut. Les éléments à l'intérieur en héritent. */
+
+    font-family:
+        Arial, /* Première police essayée. */
+        Helvetica, /* Si Arial n'existe pas sur l'ordinateur, le navigateur essaie celle-ci. */
+        sans-serif; /* Solution de secours : n'importe quelle police sans empattement. */
+
+    line-height: 1.6; /* Hauteur des lignes : 1,6 fois la taille de la police. Un nombre sans unité est un multiplicateur. Le texte est plus aéré et plus lisible. */
+
+}
+   h1, /* La virgule permet d'appliquer la même règle à plusieurs éléments à la fois. */
+h2, /* h1, h2 et h3 sont les titres de niveau 1, 2 et 3. */
+h3 {
+
+    font-family:
+        Georgia, /* Première police essayée : une police à empattements (petits traits aux extrémités des lettres), plus élégante pour les titres. */
+        "Times New Roman", /* Deuxième choix. Les guillemets sont obligatoires quand le nom de la police contient des espaces. */
+        serif; /* Solution de secours : n'importe quelle police à empattements. */
+
+}
+em { /* La balise em sert à mettre un mot en valeur dans le texte. */
+
+    font-style: italic; /* Affiche le texte en italique. */
+
+}
+a { /* La balise a représente les liens. Par défaut, ils sont bleus et soulignés. */
+
+    color: inherit; /* inherit = « prends la même valeur que l'élément parent ». Le lien garde la couleur du texte qui l'entoure. */
+
+    text-decoration: none; /* Supprime le soulignement par défaut des liens. */
+}
+.navbar { /* Le point (.) cible tous les éléments qui ont class="navbar" dans le HTML. */
+
+    position: absolute; /* Sort la barre du flux normal : elle flotte par-dessus le début de la page et les éléments suivants ne tiennent plus compte d'elle. */
+
+    top: 0; /* Colle la barre tout en haut. */
+    left: 0; /* Colle la barre tout à gauche. */
+
+    width: 100%; /* La barre prend toute la largeur de la page. % = pourcentage de la largeur du parent. */
+
+    padding: 30px 6%; /* Espace intérieur. Deux valeurs : 30px en haut et en bas, 6% à gauche et à droite. px = pixel, une unité fixe. */
+
+    display: flex; /* Flexbox : un système pour aligner des éléments côte à côte. S'applique au parent, ses enfants directs (logo et menu) se placent en ligne. */
+
+    justify-content: space-between; /* Répartit les enfants sur l'axe horizontal avec l'espace entre eux : le logo va tout à gauche, le menu tout à droite. */
+
+    align-items: center; /* Centre les enfants verticalement. */
+
+    z-index: 10; /* Gère l'empilement : plus le nombre est grand, plus l'élément passe devant les autres. La navbar reste visible au-dessus du contenu. */
+
+}
+
+
+.logo { /* Le logo du site (class="logo"). */
+
+    font-family:
+        Georgia, /* Police à empattements, comme les titres. */
+        serif; /* Solution de secours. */
+
+    font-size: 25px; /* Taille du texte : 25 pixels. */
+
+    font-weight: bold; /* Met le texte en gras. */
+
+    letter-spacing: -1px; /* Espace entre les lettres. Une valeur négative les rapproche. */
+
+}
+
+
+.logo span { /* L'espace entre deux sélecteurs signifie « à l'intérieur de » : tous les <span> qui se trouvent dans .logo. */
+
+    color: var(--red); /* Cette partie du logo devient rouge, grâce à la variable définie dans :root. */
+
+}
+
+
+.navbar nav { /* La balise <nav> (le menu) située à l'intérieur de .navbar. */
+
+    display: flex; /* Aligne les liens du menu côte à côte. */
+
+    gap: 35px; /* Espace de 35 pixels entre chaque lien. */
+
+}
+
+
+.navbar nav a { /* Les liens <a> situés dans le menu, à l'intérieur de .navbar. */
+
+    font-size: 13px; /* Petite taille de texte. */
+
+    text-transform: uppercase; /* Affiche le texte en majuscules, sans modifier le HTML. */
+
+    letter-spacing: 1px; /* Espace légèrement les lettres pour un style plus aéré. */
+
+    position: relative; /* Le lien reste à sa place, mais devient un point de repère pour les éléments en position absolute placés à l'intérieur (ici, la ligne ::after). */
+
+}
+
+
+.navbar nav a::after { /* ::after est un pseudo-élément : il crée un élément « virtuel » juste après le contenu du lien, sans toucher au HTML. Ici, il sert de ligne de soulignement. */
+
+    content: ""; /* Obligatoire pour qu'un pseudo-élément existe. Il est vide : on veut juste une ligne. */
+
+    position: absolute; /* Placé librement par rapport au lien (grâce au position: relative du lien). */
+
+    left: 0; /* Commence au bord gauche du lien. */
+
+    bottom: -6px; /* Se place 6 pixels sous le lien (valeur négative = vers l'extérieur). */
+
+    width: 0; /* Au départ, la ligne a une largeur nulle : elle est invisible. */
+
+    height: 1px; /* Épaisseur très fine : 1 pixel. */
+
+    background: var(--black); /* Couleur de la ligne : noir. */
+
+    transition: width 0.3s ease; /* Anime tout changement de largeur sur 0,3 seconde (s = seconde). ease = démarre doucement, accélère, puis ralentit. */
+
+}
+
+
+.navbar nav a:hover::after { /* :hover est une pseudo-classe : elle s'active quand la souris passe sur l'élément. Ici : quand on survole un lien, on modifie sa ligne ::after. */
+
+    width: 100%; /* La ligne passe à toute la largeur du lien. Grâce à la transition, elle se dessine progressivement de gauche à droite. */
+
+}
+   .hero { /* Le hero est la grande zone d'accueil : la première chose que l'on voit en arrivant sur la page. */
+
+    min-height: 100vh; /* Hauteur minimale de la section. vh = « viewport height » (hauteur de la fenêtre). 100vh = 100 % de la hauteur de l'écran : le hero remplit au moins tout l'écran. */
+
+    padding:
+        150px /* Haut : espace pour laisser de la place à la navbar, qui flotte par-dessus. */
+        6% /* Gauche et droite : 6 % de la largeur. */
+        80px; /* Bas : 80 pixels. Avec trois valeurs : haut, côtés, bas. */
+
+    display: grid; /* CSS Grid : un système de mise en page en colonnes et en lignes, comme un tableau. S'applique au parent : ses enfants directs se placent dans les cases de la grille. */
+
+    grid-template-columns:
+        1fr /* Première colonne : 1 part de l'espace disponible. fr = « fraction ». */
+        0.85fr; /* Deuxième colonne : 0,85 part, donc un peu plus étroite que la première. */
+
+    gap: 80px; /* Espace de 80 pixels entre les deux colonnes. */
+
+    align-items: center; /* Centre le contenu verticalement dans chaque case de la grille. */
+
+}
+
+
+.hero-content { /* Le bloc de texte du hero (colonne de gauche). */
+
+    max-width: 650px; /* Largeur maximale : le bloc ne dépasse jamais 650 pixels, même sur un très grand écran. */
+
+}
+
+
+.small-label { /* La petite étiquette placée au-dessus du titre. */
+
+    color: var(--red); /* Texte rouge, avec la variable définie dans :root. */
+
+    font-size: 12px; /* Très petit texte. */
+
+    letter-spacing: 2px; /* Espace les lettres pour un style aéré. */
+
+    text-transform: uppercase; /* Affiche le texte en majuscules. */
+
+    margin-bottom: 30px; /* Marge extérieure : 30 pixels d'espace sous l'étiquette. */
+
+}
+
+
+.hero h1 { /* Le grand titre, uniquement celui qui se trouve dans .hero. */
+
+    font-size:
+        clamp( /* clamp(minimum, idéal, maximum) : une taille adaptative qui ne sort jamais des limites. */
+            65px, /* Minimum : le titre ne descend pas sous 65 pixels. */
+            8vw, /* Idéal : 8 % de la largeur de la fenêtre. vw = « viewport width ». Le titre grandit avec l'écran. */
+            125px /* Maximum : le titre ne dépasse pas 125 pixels. */
+        );
+
+    line-height: 0.88; /* Interligne très serré : 0,88 fois la taille de la police. */
+
+    font-weight: 400; /* Poids de police « normal ». Par défaut, un h1 est en gras. */
+
+    letter-spacing: -5px; /* Rapproche fortement les lettres, pour un effet de grand titre élégant. */
+
+    margin-bottom: 40px; /* 40 pixels d'espace sous le titre. */
+
+}
+
+
+.hero h1 em { /* Les mots en <em> à l'intérieur du titre du hero. */
+
+    color: var(--red); /* Le mot mis en valeur devient rouge. */
+
+}
+
+
+.hero-description { /* Le paragraphe de présentation sous le titre. */
+
+    max-width: 500px; /* Limite la largeur pour éviter des lignes de texte trop longues, plus difficiles à lire. */
+
+    color: var(--gray); /* Texte gris, moins marqué que le titre. */
+
+    font-size: 17px; /* Taille légèrement plus grande qu'un texte standard. */
+
+    margin-bottom: 40px; /* 40 pixels d'espace sous le paragraphe. */
+
+}
+
+
+.button { /* Le bouton (ou lien) d'action. */
+
+    display: inline-flex; /* Comme flex, mais « en ligne » : le bouton ne prend que la largeur de son contenu, au lieu de remplir toute la ligne. */
+
+    align-items: center; /* Centre verticalement le texte et la flèche. */
+
+    gap: 25px; /* Espace de 25 pixels entre le texte et la flèche. */
+
+    padding: 15px 20px; /* Espace intérieur : 15px en haut et en bas, 20px à gauche et à droite. */
+
+    border-bottom: 1px solid var(--black); /* Un seul trait sous le bouton. Une bordure se décrit avec : épaisseur (1px), style (solid = trait plein) et couleur. */
+
+    font-size: 13px; /* Petite taille de texte. */
+
+    text-transform: uppercase; /* Texte en majuscules. */
+
+    letter-spacing: 1px; /* Lettres légèrement espacées. */
+
+}
+
+
+.button span { /* Le <span> à l'intérieur du bouton (probablement la flèche). */
+
+    font-size: 20px; /* Agrandit la flèche par rapport au texte du bouton. */
+
+}
+
+
+.hero-image { /* Le bloc de l'image (colonne de droite). */
+
+    position: relative; /* L'élément reste à sa place, mais devient un point de repère pour d'éventuels éléments positionnés en absolute à l'intérieur. */
+
+}
+
+
+.hero-image img { /* L'image située dans .hero-image. */
+
+    width: 100%; /* L'image prend toute la largeur de son conteneur. */
+
+    height: 680px; /* Hauteur fixe de 680 pixels. */
+
+    object-fit: cover; /* L'image remplit toute la zone sans se déformer : elle est recadrée si nécessaire, comme un fond d'écran. Sans cela, elle serait étirée. */
+
+    display: block; /* Transforme l'image en bloc. Par défaut, une image se comporte comme du texte et un petit espace parasite apparaît en dessous. Cette ligne le supprime. */
+
+}
+
+
+.hero-caption { /* La légende sous l'image. */
+
+    display: flex; /* Aligne les textes de la légende côte à côte. */
+
+    justify-content: space-between; /* Un texte tout à gauche, l'autre tout à droite. */
+
+    padding-top: 12px; /* 12 pixels d'espace entre l'image et la légende. */
+
+    font-size: 11px; /* Très petit texte. */
+
+    text-transform: uppercase; /* Majuscules. */
+
+    letter-spacing: 1px; /* Lettres légèrement espacées. */
+
+    color: var(--gray); /* Texte gris. */
+
+}
+   .section-number { /* Une classe réutilisable : on écrit le style une seule fois, puis on l'applique à plusieurs endroits du HTML avec class="section-number". */
+
+    font-size: 12px; /* Très petit texte : 12 pixels. */
+
+    text-transform: uppercase; /* Affiche le texte en majuscules, sans modifier le HTML. */
+
+    letter-spacing: 2px; /* Espace les lettres de 2 pixels pour un style plus aéré. */
+
+    color: var(--red); /* Texte rouge, grâce à la variable définie dans :root. Si on change --red, tous les numéros changent aussi. */
+
+}
+   .about { /* La section « À propos » (class="about"). */
+
+    padding: 140px 8%; /* Espace intérieur : 140px en haut et en bas, 8% à gauche et à droite. */
+
+    background: var(--paper); /* Fond beige (variable --paper) pour distinguer cette section du reste de la page. */
+
+}
+
+
+.about-content { /* Le conteneur qui regroupe l'image et le texte. */
+
+    margin-top: 70px; /* Marge extérieure : 70 pixels d'espace au-dessus, pour séparer la grille du haut de la section. */
+
+    display: grid; /* CSS Grid : les enfants directs (l'image et le texte) se placent dans des colonnes. */
+
+    grid-template-columns:
+        0.8fr /* Colonne de gauche (l'image) : 0,8 part de l'espace disponible. fr = « fraction ». */
+        1.2fr; /* Colonne de droite (le texte) : 1,2 part, donc plus large que l'image. */
+
+    gap: 100px; /* Espace de 100 pixels entre les deux colonnes. */
+
+    align-items: center; /* Centre verticalement l'image et le texte dans leurs cases. */
+
+}
+
+
+.about-image img { /* L'image située dans .about-image. */
+
+    width: 100%; /* L'image prend toute la largeur de sa colonne. */
+
+    height: 600px; /* Hauteur fixe de 600 pixels. */
+
+    object-fit: cover; /* L'image remplit la zone sans se déformer : elle est recadrée si nécessaire. */
+
+}
+
+
+.about-text h2 { /* Le titre h2 situé dans .about-text. */
+
+    font-size:
+        clamp( /* Taille adaptative : elle suit la largeur de l'écran, mais reste entre deux limites. */
+            50px, /* Minimum : jamais moins de 50 pixels. */
+            6vw, /* Idéal : 6 % de la largeur de la fenêtre (vw = « viewport width »). */
+            90px /* Maximum : jamais plus de 90 pixels. */
+        );
+
+    line-height: 0.95; /* Interligne serré : un peu moins que la taille de la police. */
+
+    font-weight: 400; /* Poids normal (un h2 est en gras par défaut). */
+
+    margin-bottom: 50px; /* 50 pixels d'espace sous le titre. */
+
+}
+
+
+.about-text h2 em { /* Les mots en <em> à l'intérieur de ce titre. */
+
+    color: var(--red); /* Le mot mis en valeur devient rouge. */
+
+}
+
+.about-text p { /* Les paragraphes situés dans .about-text. */
+
+    max-width: 650px; /* Limite la largeur du texte pour garder des lignes faciles à lire. */
+
+    color: #555; /* Gris foncé écrit directement en hexadécimal (sans variable). */
+
+    font-size: 17px; /* Taille de texte légèrement plus grande que la normale. */
+
+    margin-bottom: 25px; /* 25 pixels d'espace sous chaque paragraphe, pour les séparer. */
+
+}
+   
+   
