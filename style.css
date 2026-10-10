@@ -7,10 +7,14 @@
     --orange: #b87935;
     --gray: #6e6a63;
     --white: #faf8f3;
-    
-    --cream,--paper sont des variables CSS.L'intérêt est de 
-    pouvoir changer une couleur une seule fois et de la retrouver 
-    partout où elle est utilisée.
-
 }
-
+	margin: 0;   
+		padding: 0;
+		box-sizing: border-box;
+body { 
+    background: var(--cream); 
+    color: var(--black); 
+ font-family:
+        Arial, 
+        Helvetica, 
+        sans-serif; }
